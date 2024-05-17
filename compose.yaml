@@ -1,18 +1,17 @@
+version: "3"
 services:
-  app:
-    build:
-      context: .
-    image: next-dev
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
     ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: development
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
+      - 5432:5432
+    env_file:
+      - .env.local
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
