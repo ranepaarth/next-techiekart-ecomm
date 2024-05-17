@@ -1,6 +1,5 @@
-"use client";
 import ProductFeed from "@/components/product-feed";
-import React, { useState } from "react";
+import React from "react";
 
 const Home = () => {
 
