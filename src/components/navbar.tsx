@@ -1,7 +1,8 @@
 "use client";
 
-import { useCounterStore } from "@/providers/couter-store-provider";
+import { useCartStore } from "@/providers/couter-store-provider";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const Navbar = () => {
@@ -9,9 +10,7 @@ const Navbar = () => {
 
   const session = useSession();
 
-  const { count, decrementCount, incrementCount } = useCounterStore(
-    (state) => state
-  );
+  const { cart } = useCartStore((state) => state);
 
   const handleLogin = () => {
     setLoading(true);
@@ -27,7 +26,12 @@ const Navbar = () => {
 
   return (
     <nav className="bg-neutral-700 py-2 flex justify-center space-x-4 items-center">
-      <span className="p-4 bg-neutral-800 rounded">Cart 0</span>
+      <Link href={"/"} className="p-4 bg-neutral-800 rounded">
+        Home
+      </Link>
+      <Link href={"/cart"} className="p-4 bg-neutral-800 rounded">
+        Cart {cart.length}
+      </Link>
       <button
         className="bg-blue-500 p-4 rounded hover:bg-blue-600"
         onClick={handleLogin}
@@ -35,12 +39,6 @@ const Navbar = () => {
         {loading ? "loading..." : session.data?.user ? "Log out" : "Log in"}
       </button>
       <span>{session.data?.user?.name}</span>
-
-      <div>
-        <button onClick={() => void incrementCount()}>Inc</button>
-        <p>{count}</p>
-        <button onClick={() => void decrementCount()}>Dec</button>
-      </div>
     </nav>
   );
 };

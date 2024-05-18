@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar";
-import { CounterStoreProvider } from "@/providers/couter-store-provider";
+import { CartStoreProvider } from "@/providers/couter-store-provider";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
@@ -20,12 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <CounterStoreProvider>
+        <CartStoreProvider>
           <SessionProvider>
             <Navbar />
             {children}
           </SessionProvider>
-        </CounterStoreProvider>
+        </CartStoreProvider>
       </body>
     </html>
   );
