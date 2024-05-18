@@ -1,5 +1,6 @@
 "use client";
 
+import { useCounterStore } from "@/providers/couter-store-provider";
 import { signIn, signOut, useSession } from "next-auth/react";
 import React, { useState } from "react";
 
@@ -7,6 +8,10 @@ const Navbar = () => {
   const [loading, setLoading] = useState(false);
 
   const session = useSession();
+
+  const { count, decrementCount, incrementCount } = useCounterStore(
+    (state) => state
+  );
 
   const handleLogin = () => {
     setLoading(true);
@@ -30,6 +35,12 @@ const Navbar = () => {
         {loading ? "loading..." : session.data?.user ? "Log out" : "Log in"}
       </button>
       <span>{session.data?.user?.name}</span>
+
+      <div>
+        <button onClick={() => void incrementCount()}>Inc</button>
+        <p>{count}</p>
+        <button onClick={() => void decrementCount()}>Dec</button>
+      </div>
     </nav>
   );
 };
