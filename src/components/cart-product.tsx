@@ -1,5 +1,7 @@
+import { useCartStore } from "@/providers/couter-store-provider";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import FormatPrice from "./format-price";
 import { ProductType } from "./product";
 
 type CartProductProps = {
@@ -7,6 +9,18 @@ type CartProductProps = {
 };
 
 const CartProduct = ({ product }: CartProductProps) => {
+  const { increaseCartItemQty, decreaseCartItemQty, removeFromCart } =
+    useCartStore((state) => state);
+
+  const [price, setPrice] = useState(product.price);
+
+  useEffect(() => {
+    if (!product.qty) {
+      return setPrice(product.price);
+    }
+    setPrice(product.price * product.qty);
+  }, [product.qty]);
+
   return (
     <article className="bg-white p-10 m-5 rounded text-black space-y-2">
       <h4>{product.title}</h4>
@@ -19,12 +33,26 @@ const CartProduct = ({ product }: CartProductProps) => {
       />
       <p className="line-clamp-3">{product.description}</p>
       <div className="flex space-x-2 items-center">
-        <button className="bg-zinc-300 p-2 rounded ">+</button>
+        <button
+          className="bg-zinc-300 p-2 rounded"
+          onClick={() => increaseCartItemQty(product)}
+        >
+          +
+        </button>
         <p>{product.qty}</p>
-        <button className="bg-zinc-300 p-2 rounded">-</button>
+        <button
+          className="bg-zinc-300 p-2 rounded"
+          onClick={() => decreaseCartItemQty(product)}
+        >
+          -
+        </button>
       </div>
-      <button className="bg-amber-500 w-full p-2 text-sm mt-auto hover:bg-amber-600">
-        Add to Cart
+      <FormatPrice price={price} />
+      <button
+        className="bg-amber-500 w-full p-2 text-sm mt-auto hover:bg-amber-600"
+        onClick={() => removeFromCart(product)}
+      >
+        Remove from Cart
       </button>
     </article>
   );

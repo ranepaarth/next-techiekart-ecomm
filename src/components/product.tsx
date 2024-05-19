@@ -35,7 +35,7 @@ const Product = ({ product }: ProductProps) => {
   };
 
   const handleAddToCart = (qty: number) => {
-    addToCart(product,qty);
+    addToCart(product, qty);
   };
 
   return (
