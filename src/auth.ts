@@ -18,20 +18,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   callbacks: {
-    async signIn({ user }) {
-      try {
-        // console.log(user);
-
-        const existingUser = await getDbUserById(user.id as string);
-
-        if (!existingUser) return false;
-
-        return true;
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
-    },
     async session({ token, session }) {
       // console.log({ token });
       if (!session.user || !token.sub) return session;
