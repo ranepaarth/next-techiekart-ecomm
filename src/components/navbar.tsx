@@ -3,14 +3,25 @@
 import { useCartStore } from "@/providers/couter-store-provider";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
-  const [loading, setLoading] = useState(false);
-
+  const { cart } = useCartStore((state) => state);
   const session = useSession();
 
-  const { cart } = useCartStore((state) => state);
+  const [loading, setLoading] = useState(false);
+  const [cartQty, setCartQty] = useState(0);
+
+  useEffect(() => {
+    setCartQty(
+      cart.reduce((total, item) => {
+        if (!item.qty) {
+          return total;
+        }
+        return total + item.qty;
+      }, 0)
+    );
+  }, [cart]);
 
   const handleLogin = () => {
     setLoading(true);
@@ -30,7 +41,7 @@ const Navbar = () => {
         Home
       </Link>
       <Link href={"/cart"} className="p-4 bg-neutral-800 rounded">
-        Cart {cart.length}
+        Cart {cartQty}
       </Link>
       <button
         className="bg-blue-500 p-4 rounded hover:bg-blue-600"
