@@ -43,6 +43,9 @@ const Navbar = () => {
       <Link href={"/cart"} className="p-4 bg-neutral-800 rounded">
         Cart {cartQty}
       </Link>
+      <Link href={"/orders"} className="p-4 bg-neutral-800 rounded">
+        My Orders
+      </Link>
       <button
         className="bg-blue-500 p-4 rounded hover:bg-blue-600"
         onClick={handleLogin}
