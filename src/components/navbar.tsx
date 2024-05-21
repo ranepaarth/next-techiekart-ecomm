@@ -1,6 +1,6 @@
 "use client";
 
-import { useCartStore } from "@/providers/couter-store-provider";
+import { useCartStore } from "@/providers/cart-store-provider";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";

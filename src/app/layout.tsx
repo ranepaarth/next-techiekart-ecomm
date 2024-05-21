@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar";
-import { CartStoreProvider } from "@/providers/couter-store-provider";
+import { CartStoreProvider } from "@/providers/cart-store-provider";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
