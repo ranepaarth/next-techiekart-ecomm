@@ -3,14 +3,14 @@
 import CartProduct from "@/components/cart-product";
 import FormatPrice from "@/components/format-price";
 import { useGetUser } from "@/hooks/useGetUser";
-import { useCartStore } from "@/providers/couter-store-provider";
+import { useCartStore } from "@/providers/cart-store-provider";
 import getStripe from "@/utils/get-stripe";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 const CartPage = () => {
-  const { cart } = useCartStore((state) => state);
+  const { cart, emptyCart } = useCartStore((state) => state);
   const user = useGetUser();
   const [total, setTotal] = useState<number>();
 
@@ -58,13 +58,21 @@ const CartPage = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-x-8 px-10 pt-8">
-        <FormatPrice price={total as number} />
+      <div className="flex items-center justify-between w-full px-10 pt-8">
+        <div className="flex items-center gap-x-8">
+          <FormatPrice price={total as number} />
+          <button
+            className="px-4 py-2 bg-amber-400 text-black hover:bg-amber-500 rounded"
+            onClick={handleCheckout}
+          >
+            {user ? "Checkout" : "Log in to Checkout"}
+          </button>
+        </div>
         <button
-          className="px-4 py-2 bg-amber-400 text-black hover:bg-amber-500 rounded"
-          onClick={handleCheckout}
+          className="bg-zinc-400 hover:bg-zinc-500 p-2 rounded"
+          onClick={emptyCart}
         >
-          {user ? "Checkout" : "Log in to Checkout"}
+          Empty Cart
         </button>
       </div>
 

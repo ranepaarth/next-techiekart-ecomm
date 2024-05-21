@@ -1,4 +1,4 @@
-import { useCartStore } from "@/providers/couter-store-provider";
+import { useCartStore } from "@/providers/cart-store-provider";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import FormatPrice from "./format-price";
@@ -9,8 +9,7 @@ type CartProductProps = {
 };
 
 const CartProduct = ({ product }: CartProductProps) => {
-  const { increaseCartItemQty, decreaseCartItemQty, removeFromCart } =
-    useCartStore((state) => state);
+  const { removeFromCart, updateCartItemQty } = useCartStore((state) => state);
 
   const [price, setPrice] = useState(product.price);
 
@@ -20,6 +19,10 @@ const CartProduct = ({ product }: CartProductProps) => {
     }
     setPrice(product.price * product.qty);
   }, [product.qty]);
+
+  const handleUpdateCartItemQty = (updateQty: number) => {
+    updateCartItemQty(product, updateQty);
+  };
 
   return (
     <article className="bg-white p-10 m-5 rounded text-black space-y-2">
@@ -33,19 +36,18 @@ const CartProduct = ({ product }: CartProductProps) => {
       />
       <p className="line-clamp-3">{product.description}</p>
       <div className="flex space-x-2 items-center">
-        <button
-          className="bg-zinc-300 p-2 rounded"
-          onClick={() => increaseCartItemQty(product)}
+        <select
+          name="qty-select"
+          id="qty-select"
+          value={product.qty}
+          onChange={(e) => handleUpdateCartItemQty(Number(e.target.value))}
         >
-          +
-        </button>
-        <p>{product.qty}</p>
-        <button
-          className="bg-zinc-300 p-2 rounded"
-          onClick={() => decreaseCartItemQty(product)}
-        >
-          -
-        </button>
+          {Array.from({ length: 9 }).map((_, index) => (
+            <option value={index + 1} key={index}>
+              {index + 1}
+            </option>
+          ))}
+        </select>
       </div>
       <FormatPrice price={price} />
       <button

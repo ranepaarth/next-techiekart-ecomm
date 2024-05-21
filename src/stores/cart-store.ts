@@ -8,9 +8,9 @@ export type CartState = {
 
 export type CartActions = {
   addToCart: (item: ProductType, qty: number) => void;
+  updateCartItemQty: (item: ProductType, qty: number) => void;
   removeFromCart: (item: ProductType) => void;
-  decreaseCartItemQty: (item: ProductType) => void;
-  increaseCartItemQty: (item: ProductType) => void;
+  emptyCart: () => void;
 };
 
 export type CartStore = CartState & CartActions;
@@ -41,15 +41,33 @@ export const createCartStore = (initState: CartState = defaultInitialState) => {
               duplicateCart.push({ ...item, qty });
             }
 
-            // Item exist but qty===1
-            if (itemIndex >= 0 && duplicateCart[itemIndex].qty && qty === 1) {
-              duplicateCart[itemIndex].qty += 1;
+            if (!duplicateCart[itemIndex]?.qty) {
+              return { cart: duplicateCart };
             }
 
-            // Item exist but qty>1
-            if (itemIndex >= 0 && duplicateCart[itemIndex].qty) {
+            if (duplicateCart[itemIndex].qty + qty > 9) {
+              duplicateCart[itemIndex].qty = 9;
+            }
+
+            if (duplicateCart[itemIndex].qty + qty < 9) {
               duplicateCart[itemIndex].qty += qty;
             }
+
+            return { cart: duplicateCart };
+          }),
+
+        updateCartItemQty: (item, qty) =>
+          set((state) => {
+            const itemIndex = state.cart.findIndex(
+              (product) => product.id === item.id
+            );
+            const duplicateCart = [...state.cart];
+
+            if (!duplicateCart[itemIndex]) {
+              return { cart: state.cart };
+            }
+
+            duplicateCart[itemIndex].qty = qty;
 
             return { cart: duplicateCart };
           }),
@@ -60,38 +78,10 @@ export const createCartStore = (initState: CartState = defaultInitialState) => {
               cart: state.cart.filter((product) => product.id !== item.id),
             };
           }),
-
-        decreaseCartItemQty: (item) =>
-          set((state) => {
-            const itemIndex = state.cart.findIndex(
-              (product) => product.id === item.id
-            );
-            const duplicateCart = [...state.cart];
-
-            if (
-              itemIndex >= 0 &&
-              duplicateCart[itemIndex].qty &&
-              duplicateCart[itemIndex].qty > 1
-            ) {
-              duplicateCart[itemIndex].qty -= 1;
-            }
-
-            return { cart: duplicateCart };
-          }),
-
-        increaseCartItemQty: (item) =>
-          set((state) => {
-            const itemIndex = state.cart.findIndex(
-              (product) => product.id === item.id
-            );
-            const duplicateCart = [...state.cart];
-
-            if (itemIndex >= 0 && duplicateCart[itemIndex].qty) {
-              duplicateCart[itemIndex].qty += 1;
-            }
-
-            return { cart: duplicateCart };
-          }),
+        emptyCart: () =>
+          set((state) => ({
+            cart: [],
+          })),
       }),
       {
         name: "anazom-cart-storage",

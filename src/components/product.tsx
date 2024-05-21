@@ -1,6 +1,6 @@
 "use client";
 
-import { useCartStore } from "@/providers/couter-store-provider";
+import { useCartStore } from "@/providers/cart-store-provider";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -26,14 +26,6 @@ const Product = ({ product }: ProductProps) => {
 
   const { addToCart } = useCartStore((state) => state);
 
-  const handleClick = (isIncrease: boolean) => {
-    if (isIncrease) {
-      setQty((prev) => prev + 1);
-      return;
-    }
-    setQty((prev) => (prev <= 1 ? 1 : prev - 1));
-  };
-
   const handleAddToCart = (qty: number) => {
     addToCart(product, qty);
   };
@@ -50,19 +42,18 @@ const Product = ({ product }: ProductProps) => {
       />
       <p className="line-clamp-3">{product.description}</p>
       <div className="flex space-x-2 items-center">
-        <button
-          className="bg-zinc-300 p-2 rounded "
-          onClick={() => handleClick(false)}
+        <select
+          name="qty-select"
+          id="qty-select"
+          value={qty}
+          onChange={(e) => setQty(Number(e.target.value))}
         >
-          -
-        </button>
-        <p>{qty}</p>
-        <button
-          className="bg-zinc-300 p-2 rounded "
-          onClick={() => handleClick(true)}
-        >
-          +
-        </button>
+          {Array.from({ length: 9 }).map((_, index) => (
+            <option value={index + 1} key={index}>
+              {index + 1}
+            </option>
+          ))}
+        </select>
       </div>
       <button
         className="bg-amber-500 w-full p-2 text-sm mt-auto hover:bg-amber-600"
