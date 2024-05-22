@@ -2,10 +2,9 @@ import { useCartStore } from "@/providers/cart-store-provider";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import FormatPrice from "./format-price";
-import { ProductType } from "./product";
 
 type CartProductProps = {
-  product: ProductType;
+  product: CartProductType;
 };
 
 const CartProduct = ({ product }: CartProductProps) => {
@@ -18,7 +17,7 @@ const CartProduct = ({ product }: CartProductProps) => {
       return setPrice(product.price);
     }
     setPrice(product.price * product.qty);
-  }, [product.qty]);
+  }, [product.qty, product.price]);
 
   const handleUpdateCartItemQty = (updateQty: number) => {
     updateCartItemQty(product, updateQty);

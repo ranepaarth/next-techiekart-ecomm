@@ -1,15 +1,14 @@
-import { type ProductType } from "@/components/product";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 export type CartState = {
-  cart: ProductType[];
+  cart: CartProductType[];
 };
 
 export type CartActions = {
-  addToCart: (item: ProductType, qty: number) => void;
-  updateCartItemQty: (item: ProductType, qty: number) => void;
-  removeFromCart: (item: ProductType) => void;
+  addToCart: (item: CartProductType, qty: number) => void;
+  updateCartItemQty: (item: CartProductType, qty: number) => void;
+  removeFromCart: (item: CartProductType) => void;
   emptyCart: () => void;
 };
 
@@ -29,31 +28,26 @@ export const createCartStore = (initState: CartState = defaultInitialState) => {
     persist<CartStore>(
       (set) => ({
         ...initState,
-        addToCart: (item, qty) =>
+        addToCart: (item, qty = 1) =>
           set((state) => {
             const itemIndex = state.cart.findIndex(
               (product) => product.id === item.id
             );
             const duplicateCart = [...state.cart];
 
-            // Item doesn't exist
             if (itemIndex < 0) {
-              duplicateCart.push({ ...item, qty });
+              duplicateCart.push(item);
             }
 
-            if (!duplicateCart[itemIndex]?.qty) {
-              return { cart: duplicateCart };
-            }
-
-            if (duplicateCart[itemIndex].qty + qty > 9) {
+            if (itemIndex >= 0 && item.qty + qty > 9) {
               duplicateCart[itemIndex].qty = 9;
             }
 
-            if (duplicateCart[itemIndex].qty + qty < 9) {
+            if (itemIndex >= 0 && item.qty + qty < 9) {
               duplicateCart[itemIndex].qty += qty;
             }
 
-            return { cart: duplicateCart };
+            return { cart: [...duplicateCart] };
           }),
 
         updateCartItemQty: (item, qty) =>

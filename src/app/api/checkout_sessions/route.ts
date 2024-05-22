@@ -1,4 +1,3 @@
-import { ProductType } from "@/components/product";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 
@@ -6,7 +5,7 @@ export async function POST(req: Request) {
   try {
     const { cart, email, userId } = await req.json();
 
-    const lineItemsCart = cart.map((item: ProductType) => ({
+    const lineItemsCart = cart.map((item: CartProductType) => ({
       price_data: {
         currency: "inr",
         unit_amount: item.price * 100,
@@ -46,7 +45,7 @@ export async function POST(req: Request) {
       metadata: {
         userId,
         email,
-        images: JSON.stringify(cart.map((item: ProductType) => item.image)),
+        images: JSON.stringify(cart.map((item: CartProductType) => item.image)),
       },
     });
 

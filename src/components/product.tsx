@@ -4,19 +4,6 @@ import { useCartStore } from "@/providers/cart-store-provider";
 import Image from "next/image";
 import React, { useState } from "react";
 
-export type ProductType = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-  qty?: number;
-};
 type ProductProps = {
   product: ProductType;
 };
@@ -27,7 +14,8 @@ const Product = ({ product }: ProductProps) => {
   const { addToCart } = useCartStore((state) => state);
 
   const handleAddToCart = (qty: number) => {
-    addToCart(product, qty);
+    const newProduct: CartProductType = { ...product, qty };
+    addToCart(newProduct, qty);
   };
 
   return (
