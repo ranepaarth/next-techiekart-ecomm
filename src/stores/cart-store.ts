@@ -39,11 +39,11 @@ export const createCartStore = (initState: CartState = defaultInitialState) => {
               duplicateCart.push(item);
             }
 
-            if (itemIndex >= 0 && item.qty + qty > 9) {
+            if (itemIndex >= 0 && duplicateCart[itemIndex].qty + qty > 9) {
               duplicateCart[itemIndex].qty = 9;
             }
 
-            if (itemIndex >= 0 && item.qty + qty < 9) {
+            if (itemIndex >= 0 && duplicateCart[itemIndex].qty + qty < 9) {
               duplicateCart[itemIndex].qty += qty;
             }
 
