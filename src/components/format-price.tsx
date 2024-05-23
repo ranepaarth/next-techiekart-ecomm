@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 
-const FormatPrice = ({ price }: { price: number }) => {
+const FormatPrice = ({ price = 0 }: { price: number }) => {
   const [formatPrice, setFormatPrice] = useState<string>();
 
   useEffect(() => {
