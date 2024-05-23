@@ -1,8 +1,8 @@
 "use client";
 
-import { useCartStore } from "@/providers/cart-store-provider";
+import { addProductToCart } from "@/actions/cart-item-action";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 
 type ProductProps = {
   product: ProductType;
@@ -10,12 +10,13 @@ type ProductProps = {
 
 const Product = ({ product }: ProductProps) => {
   const [qty, setQty] = useState(1);
-
-  const { addToCart } = useCartStore((state) => state);
+  const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = (qty: number) => {
-    const newProduct: CartProductType = { ...product, qty };
-    addToCart(newProduct, qty);
+    const newProduct: CartProductType = { ...product, quantity: qty };
+    startTransition(() => {
+      addProductToCart(newProduct, qty);
+    });
   };
 
   return (
