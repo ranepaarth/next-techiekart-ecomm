@@ -1,39 +1,12 @@
-"use client";
-
-import { useCartStore } from "@/providers/cart-store-provider";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { getCart } from "@/lib/db-cart";
+import { getUser } from "@/lib/getUser";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import LoginButton from "./login-button";
 
-const Navbar = () => {
-  const { cart } = useCartStore((state) => state);
-  const session = useSession();
-
-  const [loading, setLoading] = useState(false);
-  const [cartQty, setCartQty] = useState(0);
-
-  useEffect(() => {
-    setCartQty(
-      cart.reduce((total, item) => {
-        if (!item.qty) {
-          return total;
-        }
-        return total + item.qty;
-      }, 0)
-    );
-  }, [cart]);
-
-  const handleLogin = () => {
-    setLoading(true);
-    signIn("google")
-      .then(() => setLoading(false))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-
-    if (session.data?.user) {
-      signOut();
-    }
-  };
+const Navbar = async () => {
+  const user = await getUser();
+  const cart = await getCart();
 
   return (
     <nav className="bg-neutral-700 py-2 flex justify-center space-x-4 items-center">
@@ -41,18 +14,13 @@ const Navbar = () => {
         Home
       </Link>
       <Link href={"/cart"} className="p-4 bg-neutral-800 rounded">
-        Cart {cartQty}
+        Cart {cart?.cartTotalItem}
       </Link>
       <Link href={"/orders"} className="p-4 bg-neutral-800 rounded">
         My Orders
       </Link>
-      <button
-        className="bg-blue-500 p-4 rounded hover:bg-blue-600"
-        onClick={handleLogin}
-      >
-        {loading ? "loading..." : session.data?.user ? "Log out" : "Log in"}
-      </button>
-      <span>{session.data?.user?.name}</span>
+      <LoginButton user={user} />
+      <span>{user?.name}</span>
     </nav>
   );
 };
