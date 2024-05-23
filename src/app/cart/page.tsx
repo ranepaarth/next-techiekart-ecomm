@@ -1,86 +1,57 @@
-"use client";
-
+import CartCheckoutButton from "@/components/cart-checkout-button";
+import CartEmptyButton from "@/components/cart-empty-button";
 import CartProduct from "@/components/cart-product";
 import FormatPrice from "@/components/format-price";
-import { useGetUser } from "@/hooks/useGetUser";
-import { useCartStore } from "@/providers/cart-store-provider";
-import getStripe from "@/utils/get-stripe";
-import axios from "axios";
-import { signIn } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import { prisma } from "@/lib/db";
+import { getCart } from "@/lib/db-cart";
+import { getUser } from "@/lib/getUser";
+import React from "react";
 
-const CartPage = () => {
-  const { cart, emptyCart } = useCartStore((state) => state);
-  const user = useGetUser();
-  const [total, setTotal] = useState<number>();
+const CartPage = async () => {
+  const user = await getUser();
+  const cart = await getCart();
 
-  useEffect(() => {
-    setTotal(
-      cart.reduce((total, item) => {
-        if (!item.qty) {
-          return total;
-        }
-        return total + item.price * item.qty;
-      }, 0)
-    );
-  }, [cart]);
+  const newCart = await prisma.cartItem.findMany({
+    where: {
+      cartId: cart?.id,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
 
-  const createCheckoutSession = async () => {
-    const stripe = await getStripe();
-
-    const checkoutSession = await axios.post("/api/checkout_sessions", {
-      cart,
-      email: user?.email,
-      userId: user?.id,
-    });
-
-    if (!checkoutSession) return null;
-    const res = await stripe?.redirectToCheckout({
-      sessionId: checkoutSession.data.id,
-    });
-
-    if (res?.error) {
-      alert(res.error.message);
-    }
-  };
-
-  const handleCheckout = () => {
-    user ? createCheckoutSession() : signIn();
-  };
-
+  let content;
   if (!user) {
-    return <p className="text-2xl font-bold">Please Login to continue</p>;
+    content = <p className="text-2xl font-bold">Please Login to continue</p>;
   }
 
-  if (cart.length <= 0) {
-    return <p className="text-2xl font-bold">Cart is empty</p>;
+  if (newCart.length <= 0) {
+    content = <p className="text-2xl font-bold">Cart is empty</p>;
   }
 
-  return (
-    <div>
-      <div className="flex items-center justify-between w-full px-10 pt-8">
-        <div className="flex items-center gap-x-8">
-          <FormatPrice price={total as number} />
-          <button
-            className="px-4 py-2 bg-amber-400 text-black hover:bg-amber-500 rounded"
-            onClick={handleCheckout}
-          >
-            {user ? "Checkout" : "Log in to Checkout"}
-          </button>
-        </div>
-        <button
-          className="bg-zinc-400 hover:bg-zinc-500 p-2 rounded"
-          onClick={emptyCart}
-        >
-          Empty Cart
-        </button>
-      </div>
-
+  if (user && newCart.length > 0) {
+    content = (
       <section className="grid grid-cols-1 sm:grid-cols-2">
-        {cart.map((product) => (
+        {newCart.map((product) => (
           <CartProduct product={product} key={product.id} />
         ))}
       </section>
+    );
+  }
+
+  // console.log(cart?.cartItems);
+
+  return (
+    <div className="px-10 pt-8 flex flex-col gap-4">
+      <div className="flex items-center justify-between w-full">
+        <div className="flex items-center gap-x-8">
+          <FormatPrice price={cart?.cartSubTotal as number} />
+          <CartCheckoutButton user={user} cartItems={newCart} />
+        </div>
+        <CartEmptyButton disabled={newCart.length <= 0 || !user} />
+      </div>
+
+      {content}
     </div>
   );
 };

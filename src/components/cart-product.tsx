@@ -1,26 +1,34 @@
-import { useCartStore } from "@/providers/cart-store-provider";
+"use client";
+
+import {
+  removeFromCartDb,
+  updateCartItemQuantity,
+} from "@/actions/cart-item-action";
+import { CartItem } from "@prisma/client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import FormatPrice from "./format-price";
 
 type CartProductProps = {
-  product: CartProductType;
+  product: CartItem;
 };
 
 const CartProduct = ({ product }: CartProductProps) => {
-  const { removeFromCart, updateCartItemQty } = useCartStore((state) => state);
+  const [isPending, startTransition] = useTransition();
 
   const [price, setPrice] = useState(product.price);
 
   useEffect(() => {
-    if (!product.qty) {
+    if (!product.quantity) {
       return setPrice(product.price);
     }
-    setPrice(product.price * product.qty);
-  }, [product.qty, product.price]);
+    setPrice(product.price * product.quantity);
+  }, [product.quantity, product.price]);
 
   const handleUpdateCartItemQty = (updateQty: number) => {
-    updateCartItemQty(product, updateQty);
+    startTransition(() => {
+      updateCartItemQuantity(product.productId, updateQty);
+    });
   };
 
   return (
@@ -38,7 +46,7 @@ const CartProduct = ({ product }: CartProductProps) => {
         <select
           name="qty-select"
           id="qty-select"
-          value={product.qty}
+          value={product.quantity}
           onChange={(e) => handleUpdateCartItemQty(Number(e.target.value))}
         >
           {Array.from({ length: 9 }).map((_, index) => (
@@ -51,7 +59,11 @@ const CartProduct = ({ product }: CartProductProps) => {
       <FormatPrice price={price} />
       <button
         className="bg-amber-500 w-full p-2 text-sm mt-auto hover:bg-amber-600"
-        onClick={() => removeFromCart(product)}
+        onClick={() => {
+          startTransition(() => {
+            removeFromCartDb(product.productId);
+          });
+        }}
       >
         Remove from Cart
       </button>
