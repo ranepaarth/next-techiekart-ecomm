@@ -41,19 +41,43 @@ model User {
   image         String?
   accounts      Account[]
   orders        Orders[]
+  cart          Cart[]
 
   @@map("users")
 }
 
 model Orders {
-  id             String @id @default(cuid())
+  id             String   @id @default(cuid())
   orderId        String
   amountSubTotal Float
   amountTotal    Float
   shippingAmount Float
   userId         String
   images         String[]
-  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  cartItems CartItem[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id          String @id @default(cuid())
+  productId   Int
+  title       String
+  description String
+  image       String
+  price       Float
+  quantity    Int
+  cartId      String
+  cart        Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
 }
