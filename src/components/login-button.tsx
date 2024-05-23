@@ -12,11 +12,13 @@ const LoginButton = ({ user }: LoginButtonProps) => {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
-    setLoading(true);
-    signIn("google")
-      .then(() => setLoading(false))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
+    if (!user) {
+      setLoading(true);
+      signIn("google")
+        .then(() => setLoading(false))
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false));
+    }
 
     if (user) {
       signOut();
