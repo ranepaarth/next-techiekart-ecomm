@@ -80,4 +80,6 @@ model CartItem {
   quantity    Int
   cartId      String
   cart        Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
 }
