@@ -39,12 +39,12 @@ export const createCartStore = (initState: CartState = defaultInitialState) => {
               duplicateCart.push(item);
             }
 
-            if (itemIndex >= 0 && duplicateCart[itemIndex].qty + qty > 9) {
-              duplicateCart[itemIndex].qty = 9;
+            if (itemIndex >= 0 && duplicateCart[itemIndex].quantity + qty > 9) {
+              duplicateCart[itemIndex].quantity = 9;
             }
 
-            if (itemIndex >= 0 && duplicateCart[itemIndex].qty + qty < 9) {
-              duplicateCart[itemIndex].qty += qty;
+            if (itemIndex >= 0 && duplicateCart[itemIndex].quantity + qty < 9) {
+              duplicateCart[itemIndex].quantity += qty;
             }
 
             return { cart: [...duplicateCart] };
@@ -61,7 +61,7 @@ export const createCartStore = (initState: CartState = defaultInitialState) => {
               return { cart: state.cart };
             }
 
-            duplicateCart[itemIndex].qty = qty;
+            duplicateCart[itemIndex].quantity = qty;
 
             return { cart: duplicateCart };
           }),

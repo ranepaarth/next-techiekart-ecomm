@@ -15,7 +15,7 @@ export async function POST(req: Request) {
           images: [item.image],
         },
       },
-      quantity: item.qty,
+      quantity: item.quantity,
     }));
 
     const shippingRate = await stripe.shippingRates.create({
