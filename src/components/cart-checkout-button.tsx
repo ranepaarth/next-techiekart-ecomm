@@ -40,7 +40,7 @@ const CartCheckoutButton = ({ user, cartItems }: CartCheckoutButtonProps) => {
     <button
       className="px-4 py-2 bg-amber-400 text-black hover:bg-amber-500 rounded disabled:bg-amber-700 disabled:cursor-not-allowed"
       onClick={handleCheckout}
-      disabled={cartItems.length <= 0 || !user}
+      disabled={!cartItems?.length || !user}
     >
       {user ? "Checkout" : "Log in to Checkout"}
     </button>
