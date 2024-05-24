@@ -27,7 +27,7 @@ const CartPage = async () => {
 
   if (newCart?.length) {
     content = (
-      <section className="grid grid-cols-1 sm:grid-cols-2">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {newCart?.map((product) => (
           <CartProduct product={product} key={product.id} />
         ))}
