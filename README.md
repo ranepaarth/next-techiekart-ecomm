@@ -4,22 +4,34 @@
 
 <details>
 <summary>Anonymous Cart</summary>
-<video src="https://res.cloudinary.com/dxfnfzh4q/video/upload/v1716580184/github/next-techiekart-ecomm/f4vlzvxibwxv8wspszfh.mp4" width="320" height="240" controls></video>
+
+https://github.com/ranepaarth/next-techiekart-ecomm/assets/130083485/20c9596d-e52a-407c-8e2f-63e2096cb845
+
+
 </details>
 
 <details>
 <summary>User Cart</summary>
-<video src="https://res.cloudinary.com/dxfnfzh4q/video/upload/v1716580192/github/next-techiekart-ecomm/cwxqglbeottv2vgg5kxt.mp4" width="320" height="240" controls></video>
+
+https://github.com/ranepaarth/next-techiekart-ecomm/assets/130083485/34353839-27b8-47bd-9125-1911b7d03a91
+
+
 </details>
 
 <details>
 <summary>Stripe Checkout</summary>
-<video src="https://res.cloudinary.com/dxfnfzh4q/video/upload/v1716580200/github/next-techiekart-ecomm/uc2yp2cj9tmjtednsz9e.mp4" width="320" height="240" controls></video>
+
+https://github.com/ranepaarth/next-techiekart-ecomm/assets/130083485/f938d37c-3625-48c9-907c-eaa6e7e8a23f
+
+
 </details>
 
 <details>
 <summary>Anonymous & User Cart</summary>
-<video src="https://res.cloudinary.com/dxfnfzh4q/video/upload/v1716580157/github/next-techiekart-ecomm/vpigj37nejsqjtjf1wyy.mp4" width="320" height="240" controls></video>
+
+https://github.com/ranepaarth/next-techiekart-ecomm/assets/130083485/616d4aee-34de-4559-96c0-c5c7249dc3e6
+
+
 </details>
 
 </br>
