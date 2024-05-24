@@ -1,4 +1,4 @@
-import { Cart, CartItem } from "@prisma/client";
+import { Cart, CartItem, Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { prisma } from "./db";
 import { getUser } from "./getUser";
@@ -9,19 +9,38 @@ type ShoppingCart = Cart & {
   cartTotalItem: number;
 };
 
-export async function getCart(): Promise<ShoppingCart | null> {
-  const localCartId = cookies().get("localCartId")?.value;
+//** Populate cart with cartItems to get its type
+type CartWithItems = Prisma.CartGetPayload<{
+  include: { cartItems: true };
+}>;
 
-  const cart = localCartId
-    ? await prisma.cart.findFirst({
-        where: {
-          id: localCartId,
-        },
-        include: {
-          cartItems: true,
-        },
-      })
-    : null;
+export async function getCart(): Promise<ShoppingCart | null> {
+  const user = await getUser();
+
+  let cart: CartWithItems | null = null;
+
+  if (user) {
+    cart = await prisma.cart.findFirst({
+      where: {
+        userId: user.id,
+      },
+      include: {
+        cartItems: true,
+      },
+    });
+  } else {
+    const localCartId = cookies().get("localCartId")?.value;
+    cart = localCartId
+      ? await prisma.cart.findFirst({
+          where: {
+            id: localCartId,
+          },
+          include: {
+            cartItems: true,
+          },
+        })
+      : null;
+  }
 
   if (!cart) {
     return null;
@@ -39,13 +58,20 @@ export async function getCart(): Promise<ShoppingCart | null> {
 
 export async function createCart(): Promise<ShoppingCart> {
   const user = await getUser();
-  const newCart = await prisma.cart.create({
-    data: {
-      userId: user?.id as string,
-    },
-  });
 
-  cookies().set("localCartId", newCart.id);
+  let newCart: Cart;
+  if (user) {
+    newCart = await prisma.cart.create({
+      data: {
+        userId: user?.id as string,
+      },
+    });
+  } else {
+    newCart = await prisma.cart.create({
+      data: {},
+    });
+    cookies().set("localCartId", newCart.id);
+  }
 
   return {
     ...newCart,
