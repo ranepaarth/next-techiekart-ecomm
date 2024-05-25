@@ -40,8 +40,8 @@ export async function POST(req: Request) {
       ],
       line_items: lineItemsCart,
       mode: "payment",
-      success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/cart`,
+      success_url: `${process.env.CLIENT}/success`,
+      cancel_url: `${process.env.CLIENT}/cart`,
       metadata: {
         userId,
         email,
