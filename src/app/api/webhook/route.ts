@@ -11,6 +11,8 @@ export async function POST(req: Request, res: NextApiResponse) {
   const buf = await req.text();
 
   console.log("----------------INCOMING REQUEST------------------------");
+  console.log(`sig: ${sig}`);
+  console.log(`buff: ${buf.toString()}`);
   let event: Stripe.Event;
 
   try {
@@ -44,4 +46,3 @@ export async function POST(req: Request, res: NextApiResponse) {
 
   return NextResponse.json({ message: "✅ Webhook request success!!" });
 }
-
