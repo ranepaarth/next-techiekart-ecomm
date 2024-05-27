@@ -2,6 +2,8 @@
 
 ✅ One-stop e-commerce app for all your daily needs.
 
+🚀[View Demo](https://next-techiekart-ecomm.vercel.app)
+
 <details>
 <summary>Anonymous Cart</summary>
 
