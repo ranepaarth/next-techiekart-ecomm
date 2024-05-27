@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import Socials from "@/components/socials";
 import { CartStoreProvider } from "@/providers/cart-store-provider";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -23,6 +24,7 @@ export default function RootLayout({
         <CartStoreProvider>
           <SessionProvider>
             <Navbar />
+            <Socials />
             {children}
           </SessionProvider>
         </CartStoreProvider>
