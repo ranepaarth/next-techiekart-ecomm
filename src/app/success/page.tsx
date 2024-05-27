@@ -1,5 +1,10 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Order Success",
+};
 
 const SuccessPage = () => {
   return (

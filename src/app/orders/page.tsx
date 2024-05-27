@@ -2,7 +2,18 @@ import { OrderItem } from "@/components/order-item";
 import { prisma } from "@/lib/db";
 import { getUser } from "@/lib/getUser";
 import { stripe } from "@/lib/stripe";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Your Orders",
+  },
+  robots: {
+    follow: true,
+    index: false,
+  },
+};
 
 const OrdersPage = async () => {
   const user = await getUser();

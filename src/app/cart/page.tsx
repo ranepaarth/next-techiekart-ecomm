@@ -5,7 +5,18 @@ import FormatPrice from "@/components/format-price";
 import { getCart } from "@/lib/db-cart";
 import { getUser } from "@/lib/getUser";
 import { CartItem } from "@prisma/client";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Techiekart Shopping Cart",
+  },
+  robots: {
+    follow: true,
+    index: false,
+  },
+};
 
 const CartPage = async () => {
   const user = await getUser();
