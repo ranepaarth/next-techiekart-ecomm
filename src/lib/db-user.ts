@@ -13,3 +13,17 @@ export const getDbUserById = async (id: string) => {
     return null;
   }
 };
+
+export const getDbUserByEmail = async (email: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    return null;
+  }
+};
