@@ -9,7 +9,7 @@ const Navbar = async () => {
   const cart = await getCart();
 
   return (
-    <nav className="bg-neutral-700 py-2 flex justify-center space-x-4 items-center">
+    <nav className="bg-neutral-700 py-2 flex justify-center space-x-4 items-center text-sm">
       <Link href={"/"} className="p-4 bg-neutral-800 rounded">
         Home
       </Link>
