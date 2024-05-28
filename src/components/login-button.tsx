@@ -2,6 +2,8 @@
 
 import { User } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 type LoginButtonProps = {
@@ -10,20 +12,19 @@ type LoginButtonProps = {
 
 const LoginButton = ({ user }: LoginButtonProps) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleLogin = () => {
     if (!user) {
-      setLoading(true);
-      signIn("google")
-        .then(() => setLoading(false))
-        .catch((error) => console.log(error))
-        .finally(() => setLoading(false));
+      router.push("/auth/login");
+      return;
     }
 
     if (user) {
       signOut();
     }
   };
+
   return (
     <button
       className="bg-blue-500 p-4 rounded hover:bg-blue-600"
