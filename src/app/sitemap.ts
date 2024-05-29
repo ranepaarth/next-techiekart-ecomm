@@ -19,5 +19,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
     },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon.ico`,
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`,
+    },
   ];
 }
