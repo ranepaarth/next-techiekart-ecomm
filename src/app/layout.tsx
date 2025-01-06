@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   },
   description:
     "An E-commerce web application pivoted around core functionalities and features!",
-  twitter: {
-    card: "summary_large_image",
-  },
+  // twitter: {
+  //   card: "summary_large_image",
+  // },
 };
 
 export default function RootLayout({
