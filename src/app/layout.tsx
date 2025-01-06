@@ -8,18 +8,18 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  metadataBase:new URL('https://next-techiekart-ecomm.vercel.app/'),
-  title: {
-    default: "Techiekart | One-stop shop for all your basic needs",
-    template: "%s - Techiekart",
-  },
-  description:
-    "An E-commerce web application pivoted around core functionalities and features!",
-  // twitter: {
-  //   card: "summary_large_image",
-  // },
-};
+// export const metadata: Metadata = {
+//   metadataBase:new URL('https://next-techiekart-ecomm.vercel.app/'),
+//   title: {
+//     default: "Techiekart | One-stop shop for all your basic needs",
+//     template: "%s - Techiekart",
+//   },
+//   description:
+//     "An E-commerce web application pivoted around core functionalities and features!",
+//   // twitter: {
+//   //   card: "summary_large_image",
+//   // },
+// };
 
 export default function RootLayout({
   children,
