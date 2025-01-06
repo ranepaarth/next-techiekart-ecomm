@@ -45,7 +45,8 @@ const Product = ({ product }: ProductProps) => {
         </select>
       </div>
       <button
-        className="bg-amber-500 w-full p-2 text-sm mt-auto hover:bg-amber-600"
+        className="bg-amber-500 w-full p-2 text-sm mt-auto hover:bg-amber-600 disabled:bg-amber-600 disabled:cursor-not-allowed"
+        disabled={isPending}
         onClick={() => handleAddToCart(qty)}
       >
         Add to Cart
