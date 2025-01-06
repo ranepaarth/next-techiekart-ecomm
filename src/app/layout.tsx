@@ -9,7 +9,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase:new URL(process.env.NEXT_PUBLIC_BASE_URL as string),
+  metadataBase:new URL('https://next-techiekart-ecomm.vercel.app/'),
   title: {
     default: "Techiekart | One-stop shop for all your basic needs",
     template: "%s - Techiekart",
