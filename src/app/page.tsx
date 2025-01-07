@@ -3,13 +3,14 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 const Home = async () => {
-  const response = await fetch("https://fakestoreapi.com/products");
+  const response = await fetch(process.env.NEXT_PUBLIC_API_URL!);
 
   if (response.status === 404 || !response.ok) {
     notFound();
   }
 
-  const products = await response.json();
+  const result = await response.json();
+  const products = result?.products
 
   return <ProductFeed products={products} />;
 };

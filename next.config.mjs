@@ -26,6 +26,9 @@ const nextConfig = {
       {
         hostname: "fakestoreapi.com",
       },
+      {
+        hostname: "cdn.dummyjson.com",
+      },
     ],
   },
 };

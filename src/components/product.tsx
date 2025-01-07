@@ -23,7 +23,7 @@ const Product = ({ product }: ProductProps) => {
     <article className="bg-white p-10 m-5 rounded text-black space-y-2">
       <h4>{product.title}</h4>
       <Image
-        src={product.image}
+        src={product.thumbnail}
         alt={product.title}
         width={1020}
         height={720}

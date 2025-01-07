@@ -5,6 +5,7 @@ type CartProductType = {
   description: string;
   image: string;
   quantity: number;
+  thumbnail:?string
 };
 
 type ProductType = {
@@ -18,4 +19,5 @@ type ProductType = {
     rate: number;
     count: number;
   };
+  thumbnail:string
 };

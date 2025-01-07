@@ -37,7 +37,7 @@ export const addProductToCart = async (
         productId: cartItem.id,
         title: cartItem.title,
         description: cartItem.description,
-        image: cartItem.image,
+        image: cartItem.thumbnail!,
         price: cartItem.price,
         quantity: cartItem.quantity,
         cartId: cart.id,
