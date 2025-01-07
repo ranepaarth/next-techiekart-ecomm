@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const lineItemsCart = cart.map((item: CartProductType) => ({
       price_data: {
         currency: "inr",
-        unit_amount: item.price * 100,
+        unit_amount: Math.round((item.price * 100) + Number.EPSILON),
         product_data: {
           name: item.title,
           description: item.description,
@@ -48,6 +48,8 @@ export async function POST(req: Request) {
         images: JSON.stringify(cart.map((item: CartProductType) => item.image)),
       },
     });
+
+    console.log({cart,email,userId})
 
     return NextResponse.json({ id: session.id });
   } catch (e: any) {
